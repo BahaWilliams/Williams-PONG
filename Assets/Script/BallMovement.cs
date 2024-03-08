@@ -16,7 +16,8 @@ public class BallMovement : MonoBehaviour
 
     private void Start()
     {
-        ballDirection = new Vector2(ballSpeed, Random.Range(-4f, 4f));
+        float randomY = Random.Range(-4f, 4f);
+        ballDirection = new Vector2(ballSpeed, randomY);
         ballPhysics.velocity = ballDirection;
     }
 }
