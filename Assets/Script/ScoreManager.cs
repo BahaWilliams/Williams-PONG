@@ -12,7 +12,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private GameObject rightWinner;
     [SerializeField] private GameObject mainMenuButton;
 
-    private int maxScore = 1;
+    private int maxScore = 10;
 
     public void AddScore(int increment, string side)
     {
