@@ -12,22 +12,57 @@ public class PowerUpManager : MonoBehaviour
     [SerializeField] private int spawnInterval;
 
     private List<GameObject> powerUpList;
-    private float timer;
+    private float spawnTimer;
+    private float powerUpLifeTime = 10f;
+    private bool isRemoving = false;
+    private GameObject powerUp;
+    private int powerUpIndexToRemove = 0;
 
     private void Start()
     {
         powerUpList = new List<GameObject>();
-        timer = 0;
+        spawnTimer = 0;
     }
 
     private void Update()
     {
-        timer += Time.deltaTime;
+        spawnTimer += Time.deltaTime;
 
-        if(timer > spawnInterval)
+        if (spawnTimer > spawnInterval)
         {
             GeneratePowerUp();
-            timer -= spawnInterval;
+            spawnTimer -= spawnInterval;
+            isRemoving = true;
+        }
+
+        if (isRemoving)
+        {
+            RemovePowerUpFromList();
+        }
+    }
+
+    private void RemovePowerUpFromList()
+    {
+        powerUpLifeTime -= Time.deltaTime;
+
+        if (powerUpLifeTime <= 0 && powerUpIndexToRemove < powerUpList.Count)
+        {
+            GameObject powerUpToRemove = powerUpList[powerUpIndexToRemove];
+
+            if (powerUpToRemove != null)
+            {
+                powerUpList.RemoveAt(powerUpIndexToRemove);
+                Destroy(powerUpToRemove);
+            }
+
+            powerUpIndexToRemove++;
+            powerUpLifeTime = 7f;
+        }
+
+        if (powerUpIndexToRemove >= powerUpList.Count)
+        {
+            powerUpIndexToRemove = 0;
+            isRemoving = false;
         }
     }
 
@@ -50,7 +85,7 @@ public class PowerUpManager : MonoBehaviour
         }
 
         int randomIndex = Random.Range(0, powerUpListTemplate.Count);
-        GameObject powerUp = Instantiate(powerUpListTemplate[randomIndex], position, Quaternion.identity, spawnArea);
+        powerUp = Instantiate(powerUpListTemplate[randomIndex], position, Quaternion.identity, spawnArea);
         powerUp.SetActive(true);
         powerUpList.Add(powerUp);
     }
@@ -61,11 +96,12 @@ public class PowerUpManager : MonoBehaviour
         Destroy(powerUp);
     }
 
-    public void RemoveAllPowerUp()
+    //Safety Removes
+    /*public void RemoveAllPowerUp()
     {
         while (powerUpList.Count < 0)
         {
             RemovePowerUp(powerUpList[0]);
         }
-    }
+    }*/
 }

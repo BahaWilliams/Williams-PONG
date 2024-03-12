@@ -7,10 +7,11 @@ public class BallMovement : MonoBehaviour
     [SerializeField] private float ballSpeed;
     [SerializeField] private Vector2 resetPosition;
     
-    private float originalBallSpeed;
-
+    public float originalBallSpeed;
     private Vector2 ballDirection;
     private Rigidbody2D ballPhysics;
+    private float timer = 2;
+    private bool isHitPowerUp = false;
 
     private void Awake()
     {
@@ -23,6 +24,26 @@ public class BallMovement : MonoBehaviour
         ResetBall();
     }
 
+    private void Update()
+    {
+        if (isHitPowerUp)
+        {
+            PowerUpTimer();
+        }
+    }
+
+    private void PowerUpTimer()
+    {
+        timer -= Time.deltaTime;
+
+        if (timer <= 0)
+        {
+            ballSpeed = originalBallSpeed;
+            isHitPowerUp = false;
+            timer = 5f;
+        }
+    }
+
     public void ResetBall()
     {
         transform.position = new Vector3(resetPosition.x, resetPosition.y, 2);
@@ -33,15 +54,13 @@ public class BallMovement : MonoBehaviour
 
     public void ActivateSpeedUp(float magnitude)
     {
-        Vector2 currentDirection = ballPhysics.velocity.normalized;
-        Vector2 newVelocity = currentDirection * (ballSpeed * magnitude);
-        ballPhysics.velocity = newVelocity;
+        ballSpeed *= magnitude;
+        isHitPowerUp = true;
     }
 
     public void ActivedSlowedDown(float magnitude)
     {
-        Vector2 currentDirection = ballPhysics.velocity.normalized;
-        Vector2 newVelocity = currentDirection * (ballSpeed / magnitude);
-        ballPhysics.velocity = newVelocity;
+        ballSpeed /= magnitude;
+        isHitPowerUp = true;
     }
 }
