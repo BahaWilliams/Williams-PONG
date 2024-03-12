@@ -43,7 +43,7 @@ Welcome to my journey into the world of game development! I'm excited to share m
 
 ## Credits
 
-This game is developed by [Baha Williams](https://github.com/BahaWilliams) as part of my journey to become a Unity game developer. Special thanks to [any assets, libraries, or resources used]. Feel free to explore the code and make improvements.
+This game is developed by [Baha Williams](https://github.com/BahaWilliams) as part of my journey to become a Unity game developer. Feel free to explore the code and make improvements.
 
 Join me on this exciting journey as I continue to learn and create more amazing games!
 
